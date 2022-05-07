@@ -1,0 +1,27 @@
+.button{
+    border-radius: 5px;
+    background-color: rgb(7, 42, 56);
+    color: white;
+    width: 80px;
+    height: 30px;
+}
+
+.button :hover,
+.button:active{
+    background-color: rgb(21, 76, 78);
+    color: white;
+}
+
+.button:focus{
+    outline: none;
+}
+
+button:disabled,
+button:focus:disabled,
+button:hover:disabled,
+button:active:disabled
+{
+background-color: rgb(161, 167, 168);
+color: aliceblue;
+cursor: not-allowed;
+}

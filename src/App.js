@@ -3,7 +3,7 @@ import './App.css'
 import Header from './components/Header'
 import Home from './components/Home'
 import Login from './components/Login'
-import Counter from './components/Counter'
+
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -34,7 +34,7 @@ function App() {
 					{!isLoggedIn && <Login onLogin={loginHandler} />}
 					{isLoggedIn && <Home onLogout={logoutHandler} />}
 				</main>
-				<Counter/>
+				
 			</>
 		</div>
 	)

@@ -3,69 +3,65 @@ import classes from './Login.module.css'
 import Button from '../UI/Button'
 import Card from '../UI/Card'
 
-function Login(props) {
-	const dataReducer = (prevState, action) => {
-		if (action.type === 'EMAIL_INPUT') {
-			return {
-				emailValue: action.emailValue.value,
-				emailIsValid: action.emailValue.includes('@'),
-			}
-		}
-
-		if (action.type === 'PASSWORD_INPUT') {
-			console.log(action)
-			return {
-				passwordValue: action.passwordValue.value,
-				passwordIsValid: action.passwordValue.trim().length > 2,
-			}
-		}
-
-		if (action.type === 'INPUT_BLUR') {
-			return {
-				emailValue: prevState.value,
-				emailIsValid: undefined,
-				passwordValue: prevState.value,
-				passwordIsValid: undefined,
-			}
-		}
+const dataReducer = (prevState, action) => {
+	if (action.type === 'PASSWORD') {
 		return {
-			emailValue: prevState.value,
-			emailIsValid: undefined,
-			passwordValue: prevState.value,
-			passwordIsValid: undefined,
+			...prevState,
+			passwordValue: action.passwordValue,
+			passwordIsValid: action.passwordValue.trim().length > 2,
 		}
 	}
+	if (action.type === 'EMAIL') {
+		return {
+			...prevState,
+			emailValue: action.emailValue,
+			emailIsValid: action.emailValue.includes('@'),
+		}
+	}
+	if (action.type === 'ON_BLUR') {
+		return {
+			emailValue: prevState.emailValue,
+			emailIsValid: prevState.emailValue.includes('@'),
+			passwordValue: prevState.passwordValue,
+			passwordIsValid: prevState.passwordValue.trim().length > 2,
+		}
+	} else {
+		return {
+			emailValue: '',
+			emailIsValid: null,
+			passwordValue: '',
+			passwordIsValid: null,
+		}
+	}
+}
 
+function Login(props) {
 	const [formIsValid, setFormIsValid] = useState(false)
+
 	const [userData, dispatchUserData] = useReducer(dataReducer, {
 		emailValue: '',
-		emailIsValid: false,
+		emailIsValid: null,
 		passwordValue: '',
-		passwordIsValid: false,
+		passwordIsValid: null,
 	})
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setFormIsValid(
-				// userData.passwordValue.trim().length > 2 &&
-				// // 	userData.emailValue.includes('@'),
-				// userData.passwordValue.trim().length > 2 &&
-				// 	userData.emailValue.includes('@'),
-				userData.emailIsValid && userData.passwordIsValid,
+				userData.passwordValue.length > 2 &&
+					userData.emailValue.includes('@'),
 			)
-		}, 3000)
-		return () => {
-			clearTimeout(timer)
-		}
-	}, [userData.emailIsValid, userData.passwordIsValid])
+		}, 300)
+		return () => clearTimeout(timer)
+	}, [userData.emailValue, userData.passwordValue])
 
 	const emailChangeHandler = (e) => {
-		dispatchUserData({ type: 'EMAIL_INPUT', emailValue: e.target.value })
+		dispatchUserData({ type: 'EMAIL', emailValue: e.target.value })
 	}
 
 	const passwordChangeHandler = (e) => {
 		dispatchUserData({
-			type: 'PASSWORD_INPUT',
+			type: 'PASSWORD',
 			passwordValue: e.target.value,
 		})
 	}
@@ -76,7 +72,7 @@ function Login(props) {
 	}
 
 	const validate = () => {
-		dispatchUserData({ type: 'INPUT_BLUR' })
+		dispatchUserData({ type: 'ON_BLUR' })
 	}
 
 	return (
@@ -89,7 +85,7 @@ function Login(props) {
 				>
 					<label htmlFor='email'>E-Mail</label>
 					<input
-						type='email'
+						type='text'
 						id='email'
 						onChange={emailChangeHandler}
 						value={userData.emailValue}
@@ -105,7 +101,7 @@ function Login(props) {
 				>
 					<label htmlFor='password'>Password</label>
 					<input
-						type='password'
+						type='text'
 						id='password'
 						onChange={passwordChangeHandler}
 						value={userData.passwordValue}

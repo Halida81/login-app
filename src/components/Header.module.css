@@ -16,3 +16,18 @@
     display: flex;
     justify-content: center;
 }
+
+/* .color-change-btn{
+    background-color: aqua;
+    border-radius: 12px;
+
+} */
+
+button {
+	font: inherit;
+	background: #3f787a;
+	border: 1px solid white;
+	color: white;
+	cursor: pointer;
+	border-radius: 20px;
+}

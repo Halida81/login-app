@@ -3,10 +3,11 @@ import './App.css'
 import Header from './components/Header'
 import Home from './components/Home'
 import Login from './components/Login'
-
+import AuthContext from './AutContext'
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
+	const [bgColorChange, setBgColorChange] = useState(false)
 
 	useEffect(() => {
 		const storageUserLog = localStorage.getItem('isLoggedIn')
@@ -21,21 +22,30 @@ function App() {
 	}
 
 	const logoutHandler = () => {
-		localStorage.removeItem('isLoggedIn')
+		localStorage.removeItem('isLoggedIn','1')
 		setIsLoggedIn(false)
 	}
 	return (
-		<div className='App'>
-			<>
-				<Header isAutentificated={isLoggedIn} onLogout={logoutHandler}/>
-					
-				
-				<main>
+		<div>
+			<AuthContext.Provider
+				value={{
+					setBgColorChange,
+					isLoggedIn: isLoggedIn,
+					onLogout: logoutHandler,
+				}}
+			>
+				<Header />
+
+				<main
+					style={{
+						height: '600px',
+						backgroundColor: !bgColorChange ? 'white' : 'gray',
+					}}
+				>
 					{!isLoggedIn && <Login onLogin={loginHandler} />}
 					{isLoggedIn && <Home onLogout={logoutHandler} />}
 				</main>
-				
-			</>
+			</AuthContext.Provider>
 		</div>
 	)
 }

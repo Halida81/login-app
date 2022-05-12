@@ -8,11 +8,11 @@ function Header(props) {
 	return (
 		<header className={classes['main-header']}>
 			<h1>Header</h1>
-			<Navigation
-				isLoggedIn={props.isAutentificated}
-				onLogout={props.onLogout}
-			/>
-			<Button className={classes['color-change-btn']} onClick={() => color.setBgColorChange((prev) => !prev)}>
+			<Navigation />
+			<Button
+				className={classes['color-change-btn']}
+				onClick={() => color.setBgColorChange((prev) => !prev)}
+			>
 				Change
 			</Button>
 		</header>

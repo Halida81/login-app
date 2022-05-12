@@ -8,7 +8,7 @@ function Navigation(props) {
 	return (
 		<nav className={classes.nav}>
 			<ul>
-				{data.isLoggedIn && (  
+				{data.isLoggedIn && (
 					<li>
 						<a href='/'>Users</a>
 					</li>
